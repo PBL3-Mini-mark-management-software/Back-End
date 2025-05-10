@@ -8,5 +8,4 @@ public class CustomerRequest {
     public LocalDate date_of_birth;
     public Integer points;
     public String membership_type;
-    public String customer_group;
 }
