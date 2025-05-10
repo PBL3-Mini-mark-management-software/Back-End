@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
-// @CrossOrigin(origins = "*") 
 @CrossOrigin(origins = "http://localhost:5173")
 public class CustomersController {
 
@@ -44,7 +43,6 @@ public class CustomersController {
         c.setDate_of_birth(req.date_of_birth);
         c.setPoints(req.points);
         c.setMembership_type(req.membership_type);
-        c.setCustomer_group(req.customer_group);
         
         return service.create(c);
     }
