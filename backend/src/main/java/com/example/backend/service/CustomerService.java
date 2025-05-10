@@ -20,8 +20,29 @@ public class CustomerService {
         return repo.findById(id).orElse(null);
     }
 
+    
     public Customers create(Customers c){
-        return repo.save(c);
+        // Lấy giá trị ind lớn nhất từ bảng
+        Long maxInd = repo.findMaxInd();
+        if (maxInd == null) {
+            maxInd = 0L;
+        }
+        
+        Long newInd = maxInd + 1;
+        
+        // Tạo customer_id với ind mới
+        String customerId = "KH" + String.format("%03d", newInd);
+        
+        // Gán customer_id và ind cho đối tượng Customers
+        c.setCustomer_id(customerId);
+        c.setInd(newInd);
+
+
+        // Debug: Kiểm tra xem customer_id có được gán chính xác không
+        System.out.println("Generated customer_id: " + customerId);
+        System.out.println("Generated ind: " + newInd);
+
+        return repo.save(c);  
     }
 
     public Customers update(String id, Customers c){
@@ -43,7 +64,11 @@ public class CustomerService {
         repo.deleteById(id);
     }
 
-    public boolean exists(String id){
+    public boolean existsById(String id){
         return repo.existsById(id);
+    }
+
+    public boolean existByPhone(String phone){
+        return repo.existsByPhone(phone);
     }
 }
