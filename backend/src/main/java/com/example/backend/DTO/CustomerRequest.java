@@ -7,5 +7,4 @@ public class CustomerRequest {
     public String phone;
     public LocalDate date_of_birth;
     public Integer points;
-    public String membership_type;
 }
