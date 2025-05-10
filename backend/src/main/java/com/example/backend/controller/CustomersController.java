@@ -1,3 +1,4 @@
+
 package com.example.backend.controller;
 
 import com.example.backend.model.Customers;
@@ -42,6 +43,7 @@ public class CustomersController {
         c.setPhone(req.phone);
         c.setDate_of_birth(req.date_of_birth);
         c.setPoints(req.points);
+        // c.setMembership_type(req.membership_type);
         
         return service.create(c);
     }
