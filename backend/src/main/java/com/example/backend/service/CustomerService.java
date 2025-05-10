@@ -20,7 +20,38 @@ public class CustomerService {
         return repo.findById(id).orElse(null);
     }
 
-    
+        private int getLevel(String membership) {
+        return switch (membership) {
+            case "Kim cương" -> 5;
+            case "Vàng" -> 4;
+            case "Bạc" -> 3;
+            case "Đồng" -> 2;
+            case "Chưa có hạng" -> 1;
+            case null -> 1;
+            default -> 0;
+        };
+    }
+
+
+    //nâng cấp, update membership_type
+    public String determineMembershipType(Integer points, String currentMembership) {
+        if (points == null) return currentMembership != null ? currentMembership : "Chưa có hạng";
+
+        String newMembership;
+        if (points > 5000) newMembership = "Kim cương";
+        else if (points > 2000) newMembership = "Vàng";
+        else if (points > 700) newMembership = "Bạc";
+        else if (points > 100) newMembership = "Đồng";
+        else newMembership = "Chưa có hạng";
+
+        // Xác định thứ hạng
+        int currentLevel = getLevel(currentMembership);
+        int newLevel = getLevel(newMembership);
+
+        return (newLevel > currentLevel) ? newMembership : currentMembership;
+    }
+
+
     public Customers create(Customers c){
         // Lấy giá trị ind lớn nhất từ bảng
         Long maxInd = repo.findMaxInd();
@@ -36,6 +67,9 @@ public class CustomerService {
         // Gán customer_id và ind cho đối tượng Customers
         c.setCustomer_id(customerId);
         c.setInd(newInd);
+        c.setMembership_type(determineMembershipType(c.getPoints(), null));
+
+
 
 
         // Debug: Kiểm tra xem customer_id có được gán chính xác không
@@ -45,9 +79,8 @@ public class CustomerService {
         return repo.save(c);  
     }
 
+    
     public Customers update(String id, Customers c){
-        // c.setCustomer_id(id);
-        // return repo.save(c);
         Customers existing = repo.findById(id).orElse(null);
         if (existing == null) return null;
 
@@ -55,8 +88,13 @@ public class CustomerService {
         if (c.getPhone()!=null) existing.setPhone(c.getPhone());
         if (c.getDate_of_birth()!=null) existing.setDate_of_birth(c.getDate_of_birth());
         if (c.getPoints()!=null) existing.setPoints(c.getPoints());
-        if (c.getMembership_type()!=null) existing.setMembership_type(c.getMembership_type());
-        if (c.getCustomer_group()!=null) existing.setCustomer_group(c.getCustomer_group());
+        if (c.getPoints() != null) {
+            existing.setPoints(c.getPoints());
+            String updatedMembership = determineMembershipType(c.getPoints(), existing.getMembership_type());
+            existing.setMembership_type(updatedMembership);
+        }
+
+
         return repo.save(existing);
     }
 
