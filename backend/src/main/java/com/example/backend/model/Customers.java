@@ -21,7 +21,6 @@ public class Customers {
     private LocalDate date_of_birth;
     private Integer points;
     private String membership_type;
-    private String customer_group;
 
     @Column(unique = true)
     private Long ind; 
