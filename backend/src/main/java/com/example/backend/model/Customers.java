@@ -14,13 +14,17 @@ public class Customers {
     @Id
     private String customer_id;
     
-    private String name;
+    @Column(unique = true)
     private String phone; 
 
+    private String name;
     private LocalDate date_of_birth;
     private Integer points;
     private String membership_type;
     private String customer_group;
+
+    @Column(unique = true)
+    private Long ind; 
 
     @OneToMany(mappedBy = "customer")
     private List<Orders> order;
