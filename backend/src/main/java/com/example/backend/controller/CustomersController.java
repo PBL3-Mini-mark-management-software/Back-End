@@ -27,7 +27,15 @@ public class CustomersController {
         return service.getAll();
     }
 
+    //linh: 
     
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @GetMapping
+    public List<Customers> getAllCustomers() {
+        return customerRepository.findAll();
+    }
     //READ BY ID
     @GetMapping("/{id}")
     public ResponseEntity<Customers> getById(@PathVariable String id) {
