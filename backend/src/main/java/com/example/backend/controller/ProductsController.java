@@ -182,3 +182,35 @@ public ResponseEntity<Void> deleteProduct(@PathVariable String id){
 
 
 }
+//Linh
+package com.example.demo.controller;
+
+// import com.example.demo.DTO.ProductDTO;
+//import com.example.demo.model.Customers;
+ import com.example.demo.model.Products;
+//import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@RestController
+@RequestMapping("/api/products")
+@CrossOrigin(origins = "http://localhost:5173")
+public class ProductController {
+    @Autowired
+    private ProductRepository productRepository;
+
+   @GetMapping()
+    public List<Products> getProducts() {
+        return productRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Products getProductById(@PathVariable String id) {
+        return productRepository.findById(id).orElse(null);
+    }
+    
+}
